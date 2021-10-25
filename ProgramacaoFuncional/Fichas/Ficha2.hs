@@ -1,9 +1,10 @@
--- 1.
+import Data.Char
 
+-- 1.
 
 funA :: [Double] -> Double
 funA [] = 0
-funA (y:ys) = y^2 + (funA ys)
+funA (y : ys) = y ^ 2 + (funA ys)
 
 {- funcA [2,3,5,1]
 =
@@ -21,12 +22,12 @@ funcA (2 : [3, 5, 1])
 =
 4 + 9 + 25 + 1
 =
-39 
+39
 -}
 
 funB :: [Int] -> [Int]
 funB [] = []
-funB (h:t) = 
+funB (h : t) =
   if mod h 2 == 0
     then h : funB t
     else funB t
@@ -45,7 +46,7 @@ funB (8 : [5, 12])
 [8, 12]
 -}
 
-funC (x:y:t) = funC t
+funC (x : y : t) = funC t
 funC [x] = [x]
 funC [] = []
 
@@ -62,8 +63,9 @@ funC [5]
 -}
 
 funD l = g [] l
+
 g acc [] = acc
-g acc (h:t) = g (h:acc) t
+g acc (h : t) = g (h : acc) t
 
 {- funD "otrec"
 =
@@ -84,49 +86,48 @@ g ('c' : 'e' : 'r' : 't' : 'o' : []) []
 "certo"
 -}
 
-
 -- 2.
 
 dobros :: [Float] -> [Float]
 dobros [] = []
-dobros (x:xs) = x * 2 : dobros xs
+dobros (x : xs) = x * 2 : dobros xs
 
 numOcorre :: Char -> String -> Int
 numOcorre _ [] = 0
-numOcorre char (stringHead: stringTail) = 
-    if char == stringHead
-        then 1 + numOcorre char stringTail
-        else numOcorre char stringTail
+numOcorre char (stringHead : stringTail) =
+  if char == stringHead
+    then 1 + numOcorre char stringTail
+    else numOcorre char stringTail
 
 positivos :: [Int] -> Bool
 positivos [] = True
-positivos (x:xs) = 
+positivos (x : xs) =
   if mod x 2 == 0
     then positivos xs
     else False
 
 soPos :: [Int] -> [Int]
 soPos [] = []
-soPos (x:xs) = 
+soPos (x : xs) =
   if x >= 0
     then x : soPos xs
     else soPos xs
 
 somaNeg :: [Int] -> Int
 somaNeg [] = 0
-somaNeg (x:xs) = 
+somaNeg (x : xs) =
   if x <= 0
     then x + somaNeg xs
     else somaNeg xs
 
 tresUlt :: [a] -> [a]
-tresUlt list = case list of 
-  (_:x:y:z:t) -> tresUlt (x:y:z:t)
-  _ -> list 
+tresUlt list = case list of
+  (_ : x : y : z : t) -> tresUlt (x : y : z : t)
+  _ -> list
 
-segundos :: [(a,b)] -> [b] 
+segundos :: [(a, b)] -> [b]
 segundos [] = []
-segundos ((_,second):t) = second : segundos t
+segundos ((_, second) : t) = second : segundos t
 
 nosPrimeiros :: (Eq a) => a -> [(a, b)] -> Bool
 nosPrimeiros _ [] = False
@@ -135,6 +136,14 @@ nosPrimeiros e ((first, _) : tail)
   | otherwise = nosPrimeiros e tail
 
 sumTriplos :: (Num a, Num b, Num c) => [(a, b, c)] -> (a, b, c)
-sumTriplos [] = (0,0,0)
-sumTriplos ((a, b, c) : tail) = (a + nextA, b + nextB, c + nextC) 
-  where (nextA, nextB, nextC) = sumTriplos tail
+sumTriplos [] = (0, 0, 0)
+sumTriplos ((a, b, c) : tail) = (a + nextA, b + nextB, c + nextC)
+  where
+    (nextA, nextB, nextC) = sumTriplos tail
+
+soDigitos :: [Char] -> [Char]
+soDigitos [] = []
+soDigitos (x : xs) =
+  if isDigit x
+    then x : soDigitos xs
+    else soDigitos xs
