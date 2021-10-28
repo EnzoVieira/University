@@ -141,6 +141,8 @@ sumTriplos ((a, b, c) : tail) = (a + nextA, b + nextB, c + nextC)
   where
     (nextA, nextB, nextC) = sumTriplos tail
 
+-- 3.
+
 soDigitos :: [Char] -> [Char]
 soDigitos [] = []
 soDigitos (x : xs) =
