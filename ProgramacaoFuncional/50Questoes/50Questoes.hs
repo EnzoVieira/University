@@ -1,3 +1,5 @@
+import Data.List
+
 -- 1.
 enumFromToRecursive :: Int -> Int -> [Int]
 enumFromToRecursive start finish
@@ -192,10 +194,10 @@ isPrefixOfTeste2 = [10, 20, 30]
 isPrefixOfTeste3 :: [Int]
 isPrefixOfTeste3 = [10, 30]
 
-isPrefixOf :: Eq a => [a] -> [a] -> Bool
-isPrefixOf (x : xs) (y : ys) = x == y && isPrefixOf xs ys
-isPrefixOf (x : xs) [] = False
-isPrefixOf _ _ = True
+isPrefixOfRecursive :: Eq a => [a] -> [a] -> Bool
+isPrefixOfRecursive (x : xs) (y : ys) = x == y && isPrefixOfRecursive xs ys
+isPrefixOfRecursive (x : xs) [] = False
+isPrefixOfRecursive _ _ = True
 
 -- 23.
 isSuffixOfTeste1 :: [Int]
@@ -204,10 +206,10 @@ isSuffixOfTeste1 = [20, 30]
 isSuffixOfTeste2 :: [Int]
 isSuffixOfTeste2 = [10, 20, 30]
 
-isSuffixOf :: Eq a => [a] -> [a] -> Bool
-isSuffixOf [] _ = True
-isSuffixOf _ [] = False
-isSuffixOf l1 l2 = last l1 == last l2 && isSuffixOf (init l1) (init l2)
+isSuffixOfRecursive :: Eq a => [a] -> [a] -> Bool
+isSuffixOfRecursive [] _ = True
+isSuffixOfRecursive _ [] = False
+isSuffixOfRecursive l1 l2 = last l1 == last l2 && isSuffixOfRecursive (init l1) (init l2)
 
 -- 24.
 isSubsequenceOfTeste1 :: [Int]
@@ -216,13 +218,13 @@ isSubsequenceOfTeste1 = [40, 20]
 isSubsequenceOfTeste2 :: [Int]
 isSubsequenceOfTeste2 = [10, 20, 30, 40]
 
-isSubsequenceOf :: Eq a => [a] -> [a] -> Bool
-isSubsequenceOf [] _ = True
-isSubsequenceOf _ [] = False
-isSubsequenceOf (x : xs) (y : ys) =
+isSubsequenceOfRecursive :: Eq a => [a] -> [a] -> Bool
+isSubsequenceOfRecursive [] _ = True
+isSubsequenceOfRecursive _ [] = False
+isSubsequenceOfRecursive (x : xs) (y : ys) =
   if x == y
-    then isSubsequenceOf xs ys
-    else isSubsequenceOf (x : xs) ys
+    then isSubsequenceOfRecursive xs ys
+    else isSubsequenceOfRecursive (x : xs) ys
 
 -- 25.
 elemIndicesTeste :: [Int]
@@ -323,3 +325,83 @@ unwordsRecursive :: [String] -> String
 unwordsRecursive [] = []
 unwordsRecursive [x] = x
 unwordsRecursive (x : xs) = x ++ " " ++ unwordsRecursive xs
+
+-- 33.
+unlinesRecursiveTeste :: [String]
+unlinesRecursiveTeste = ["Prog", "Func"]
+
+unlinesRecursive :: [String] -> String
+unlinesRecursive [] = []
+unlinesRecursive (x : xs) = x ++ "\n" ++ unlinesRecursive xs
+
+-- 34.
+pMaior :: Ord a => [a] -> Int
+pMaior l = posicaoMaior (0, head l, 0) l
+
+posicaoMaior :: Ord a => (Int, a, Int) -> [a] -> Int
+posicaoMaior (pm, _, _) [] = pm
+posicaoMaior (pm, maior, pa) (x : xs)
+  | x > maior = posicaoMaior (pa, x, pa + 1) xs
+  | otherwise = posicaoMaior (pm, maior, pa + 1) xs
+
+-- 35.
+lookupRecursiveTeste :: [(Char, Int)]
+lookupRecursiveTeste = [('a', 1), ('b', 4), ('c', 5)]
+
+lookupRecursive :: Eq a => a -> [(a, b)] -> Maybe b
+lookupRecursive _ [] = Nothing
+lookupRecursive el ((a, b) : xs) =
+  if el == a
+    then Just b
+    else lookupRecursive el xs
+
+-- 36.
+preCrescenteTeste :: [Int]
+preCrescenteTeste = [3, 7, 9, 6, 10, 22]
+
+preCrescente :: Ord a => [a] -> [a]
+preCrescente (x1 : x2 : xs) =
+  if x2 > x1
+    then x1 : preCrescente (x2 : xs)
+    else [x1]
+preCrescente _ = []
+
+--37.
+iSortTeste :: [Int]
+iSortTeste = [1, 7, 3, 6, 4, 1, 3, 5, 8, 0]
+
+iSort :: Ord a => [a] -> [a]
+iSort [] = []
+iSort (x : xs) =
+  let r = iSort xs
+   in insert x r
+
+-- 38.
+menor :: String -> String -> Bool
+menor (x : xs) (y : ys)
+  | x == y = True && menor xs ys
+  | x < y = True && menor xs ys
+  | otherwise = False
+menor [] _ = True
+menor _ [] = False
+
+-- 39.
+elemMSetTeste :: [(Char, Int)]
+elemMSetTeste = [('b', 2), ('a', 4), ('c', 1)]
+
+elemMSet :: Eq a => a -> [(a, Int)] -> Bool
+elemMSet _ [] = False
+elemMSet el ((a, b) : xs) = el == a || elemMSet el xs
+
+-- 40.
+converteMSetTeste :: [(Char, Int)]
+converteMSetTeste = [('b', 2), ('a', 4), ('c', 1)]
+
+converteMSet :: [(a, Int)] -> [a]
+converteMSet [] = []
+converteMSet (x : xs) = converteMSetAux x ++ converteMSet xs
+
+converteMSetAux :: (a, Int) -> [a]
+converteMSetAux (el, n)
+  | n == 0 = []
+  | otherwise = el : converteMSetAux (el, n - 1)
