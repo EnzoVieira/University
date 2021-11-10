@@ -7,10 +7,12 @@ enumFromToRecursive start finish
   | otherwise = start : enumFromToRecursive (start + 1) finish
 
 -- 2.
--- enumFromThenToRecursive :: Int -> Int -> Int -> [Int]
--- enumFromThenToRecursive start step finish
---   | start > finish = []
---   | otherwise = start : enumFromThenToRecursive (step - start + 1) step finish
+enumFromThenToRecursive :: Int -> Int -> Int -> [Int]
+enumFromThenToRecursive start second finish
+  | start > finish = []
+  | otherwise = start : enumFromThenToRecursive (start + step) (second + step) finish
+  where
+    step = second - start
 
 -- 3.
 concatRecursive :: [a] -> [a] -> [a]
@@ -247,11 +249,9 @@ nubRecursiveTeste = [1, 2, 1, 2, 3, 1, 2]
 
 nubRecursive :: Eq a => [a] -> [a]
 nubRecursive [] = []
-nubRecursive (x : xs) =
-  let r = nubRecursive xs
-   in if x `elem` r
-        then r
-        else x : r
+nubRecursive (x : xs) = x : nubRecursive r
+  where
+    r = filter (/= x) xs
 
 -- 27.
 deleteRecursiveTeste :: [Int]
@@ -405,3 +405,84 @@ converteMSetAux :: (a, Int) -> [a]
 converteMSetAux (el, n)
   | n == 0 = []
   | otherwise = el : converteMSetAux (el, n - 1)
+
+-- 41.
+insereMSetTeste :: [(Char, Int)]
+insereMSetTeste = [('b', 2), ('a', 4), ('c', 1)]
+
+insereMSet :: Eq a => a -> [(a, Int)] -> [(a, Int)]
+insereMSet _ [] = []
+insereMSet el ((a, b) : xs)
+  | el == a = (a, b + 1) : xs
+  | otherwise = (a, b) : insereMSet el xs
+
+-- 42.
+removeMSetTeste :: [(Char, Int)]
+removeMSetTeste = [('b', 2), ('a', 4), ('c', 1)]
+
+removeMSet :: Eq a => a -> [(a, Int)] -> [(a, Int)]
+removeMSet _ [] = []
+removeMSet el ((a, b) : xs)
+  | el == a = xs
+  | otherwise = (a, b) : removeMSet el xs
+
+-- 43.
+controiMSetTeste :: String
+controiMSetTeste = "aaabccc"
+
+controiMSet :: Ord a => [a] -> [(a, Int)]
+controiMSet [] = []
+controiMSet [x] = [(x, 1)]
+controiMSet (x : xs) =
+  let r = controiMSet xs
+   in if fst (last r) == x -- last (a, Int)
+        then insereMSet x r
+        else r ++ [(x, 1)]
+
+-- 44.
+partitionEithersRecursiveTeste :: [Either Int String]
+partitionEithersRecursiveTeste = [Left 1, Left 2, Left 3, Right "Enzo", Right "Enzo", Right "Enzo"]
+
+partitionEithersRecursive :: [Either a b] -> ([a], [b])
+partitionEithersRecursive (Left x : xs) =
+  let (as, bs) = partitionEithersRecursive xs
+   in (x : as, bs)
+partitionEithersRecursive (Right x : xs) =
+  let (as, bs) = partitionEithersRecursive xs
+   in (as, x : bs)
+partitionEithersRecursive [] = ([], [])
+
+-- 46.
+data Movimento = Norte | Sul | Este | Oeste deriving (Show)
+
+type Coordenada = (Int, Int)
+
+caminho :: Coordenada -> Coordenada -> [Movimento]
+caminho (startX, startY) (finishX, finishY)
+  | startY < finishY = Norte : caminho (startX, startY + 1) (finishX, finishY)
+  | startY > finishY = Sul : caminho (startX, startY - 1) (finishX, finishY)
+  | startX < finishX = Oeste : caminho (startX + 1, startY) (finishX, finishY)
+  | startX > finishX = Este : caminho (startX - 1, startY) (finishX, finishY)
+  | otherwise = []
+
+-- 47.
+trilhaTeste :: [Movimento]
+trilhaTeste = [Norte, Norte, Norte, Este, Este, Oeste, Sul, Sul, Sul, Oeste]
+
+trilha :: Coordenada -> [Movimento] -> [Coordenada]
+trilha (startX, startY) (Norte : xs) = newCord : trilha newCord xs
+  where
+    newCord = (startX, startY + 1)
+trilha (startX, startY) (Sul : xs) = newCord : trilha newCord xs
+  where
+    newCord = (startX, startY - 1)
+trilha (startX, startY) (Este : xs) = newCord : trilha newCord xs
+  where
+    newCord = (startX + 1, startY)
+trilha (startX, startY) (Oeste : xs) = newCord : trilha newCord xs
+  where
+    newCord = (startX - 1, startY)
+trilha _ [] = []
+
+hasLoops :: Coordenada -> [Movimento] -> Bool
+hasLoops initialCord moves = initialCord `elem` tail (trilha initialCord moves)
