@@ -19,6 +19,7 @@ void tresum(int colunas, int linhas) {
 
 }
 
+// 3.2
 void tresdois(int colunas, int linhas) {
     for (int i = 0; i < linhas; i++) {
 
@@ -62,17 +63,49 @@ void tresdois(int colunas, int linhas) {
 
 }
 
+// 3.3
+void trestresVertical() {
+    int altura = 5;
+
+    for (int i = 0; i < 2 * altura; i++) {
+        int colunas;
+
+        if(i < altura) {
+            colunas = i;
+        } else if (i == altura) {
+            colunas = altura;
+        } else {
+            int degrau = i - altura;
+            colunas = altura - degrau;
+        }
+
+        for (int j = 0; j < colunas; j++) {
+
+            if(j == colunas-1) {
+                printf("#\n");
+            } else {
+                printf("#");
+            }
+
+        }
+
+    }
+}
+
 int main() {
     int col, li;
 
-    printf("Insira o número de colunas e número de linhas, respectivamente: ");
-    scanf("%d %d", &col, &li);
-
-    // // 3.1
+    // 3.1
+    // printf("Insira o número de colunas e número de linhas, respectivamente: ");
+    // scanf("%d %d", &col, &li);
     // tresum(col, li);
 
     // 3.2
-    tresdois(col, li);
+    // printf("Insira o número de colunas e número de linhas, respectivamente: ");
+    // scanf("%d %d", &col, &li);
+    // tresdois(col, li);
+
+    trestres();
 
     return 0;
 }
