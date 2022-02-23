@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 
 // 3.1
@@ -6,13 +7,7 @@ void tresum(int colunas, int linhas) {
     for (int i = 0; i < linhas; i++) {
 
         for (int j = 0; j < colunas; j++) {
-
-            if(j == colunas-1){
-                printf("#\n");
-            } else {
-                printf("#");
-            }
-
+            if(j == colunas-1) printf("#\n"); else printf("#");
         }
 
     }
@@ -28,32 +23,16 @@ void tresdois(int colunas, int linhas) {
             if(j == colunas-1){
 
                 if (i % 2 == 0) {
-                    if(j % 2 == 0) {
-                        printf("#\n");
-                    } else {
-                        printf("_\n");
-                    }
+                    if(j % 2 == 0) printf("#\n"); else printf("_\n");
                 } else {
-                    if(j % 2 == 0) {
-                        printf("_\n");
-                    } else {
-                        printf("#\n");
-                    }
+                    if(j % 2 == 0) printf("_\n"); else printf("#\n");
                 }
 
             } else {
                 if (i % 2 == 0) {
-                    if(j % 2 == 0) {
-                        printf("#");
-                    } else {
-                        printf("_");
-                    }
+                    if(j % 2 == 0) printf("#"); else printf("_");
                 } else {
-                    if(j % 2 == 0) {
-                        printf("_");
-                    } else {
-                        printf("#");
-                    }
+                    if(j % 2 == 0) printf("_"); else printf("#");
                 }
             }
 
@@ -78,13 +57,7 @@ void trestresVertical(int altura) {
         }
 
         for (int j = 0; j < colunas; j++) {
-
-            if(j == colunas-1) {
-                printf("#\n");
-            } else {
-                printf("#");
-            }
-
+            if(j == colunas-1) printf("#\n"); else printf("#");
         }
 
     }
@@ -97,23 +70,39 @@ void trestresHorizontal(int altura) {
     for (int i = 0; i < altura; i++) {
         margin = altura - i+1;
 
-        for (int j = 0; j < margin; j++) {
-            printf(" ");
-        }
+        for (int j = 0; j < margin; j++) printf(" ");
 
         int colunas;
         if (i == 0) colunas=1; else colunas=2*i+1;
 
         for (int k = 0; k < colunas; k++) {
-            if(k == colunas-1){
-                printf("#\n");
-            } else {
-                printf("#");
-            }
-
+            if(k == colunas-1) printf("#\n"); else printf("#");
         }
     }
 
+}
+
+// 4
+void quatro(int raio) {
+    int altura = raio*2 + 1;
+
+    for (int i = 0; i < altura; i++) {
+
+        int colunas;
+        if (i <= raio) {
+            colunas = 1 + i*2;
+        } else {
+            int degrau = altura - i;
+            colunas = degrau*2 - 1;
+        }
+
+        int spacing = abs (i - raio);
+
+        for (int j = 0; j < spacing; j++) printf(" ");
+        for (int k = 0; k < colunas; k++) printf("#");
+
+        printf("\n");
+    }
 }
 
 int main() {
@@ -130,10 +119,13 @@ int main() {
     // tresdois(col, li);
 
     // 3.3 Vertical
-    // trestresVertical(5);
+    // trestresVertical(10);
 
     // 3.3 Horizontal
-    trestresHorizontal(5);
+    // trestresHorizontal(10);
+
+    // 4
+    quatro(10);
 
     return 0;
 }
