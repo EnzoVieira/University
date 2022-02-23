@@ -63,10 +63,8 @@ void tresdois(int colunas, int linhas) {
 
 }
 
-// 3.3
-void trestresVertical() {
-    int altura = 5;
-
+// 3.3 Vertical
+void trestresVertical(int altura) {
     for (int i = 0; i < 2 * altura; i++) {
         int colunas;
 
@@ -92,6 +90,32 @@ void trestresVertical() {
     }
 }
 
+// 3.3 Horizontal
+void trestresHorizontal(int altura) {
+    int margin;
+
+    for (int i = 0; i < altura; i++) {
+        margin = altura - i+1;
+
+        for (int j = 0; j < margin; j++) {
+            printf(" ");
+        }
+
+        int colunas;
+        if (i == 0) colunas=1; else colunas=2*i+1;
+
+        for (int k = 0; k < colunas; k++) {
+            if(k == colunas-1){
+                printf("#\n");
+            } else {
+                printf("#");
+            }
+
+        }
+    }
+
+}
+
 int main() {
     int col, li;
 
@@ -105,7 +129,11 @@ int main() {
     // scanf("%d %d", &col, &li);
     // tresdois(col, li);
 
-    trestres();
+    // 3.3 Vertical
+    // trestresVertical(5);
+
+    // 3.3 Horizontal
+    trestresHorizontal(5);
 
     return 0;
 }
