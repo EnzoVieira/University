@@ -1,4 +1,3 @@
-#include <math.h>
 #include <stdio.h>
 // Comparador de numeros
 // Escreva um programa que:
@@ -42,17 +41,17 @@
 // IGUAIS
 
 int main() {
-    double a, b;
+    int a, b;
 
-    printf("Números: ");
-    scanf("%lf %lf", &a, &b);
-
-    if (a > b) {
-        printf("%.0lf", pow(a, 2));
-    } else if (b > a) {
-        printf("%.0lf", pow(b, 2));
-    } else {
-        printf("IGUAIS");
+    // printf("Números: ");
+    if (scanf("%d%d\n", &a, &b) == 2) {
+        if (a > b) {
+            printf("%d\n", a*a);
+        } else if (b > a) {
+            printf("%d\n", b*b);
+        } else {
+            printf("IGUAIS\n");
+        }
     }
 
     return 0;

@@ -40,12 +40,11 @@ int main() {
     int baseMa, altura, baseMe;
     float pi = 3.14;
 
-    printf("Insira a base maior, altura e base menor, respectivamente: ");
-    scanf("%d %d %d", &baseMa, &altura, &baseMe);
-
-    float volume = (pi * altura) / 3 * (pow(baseMa, 2) + baseMa * baseMe + pow(baseMe, 2));
-
-    printf("%d", (int) volume);
+    // printf("Insira a base maior, altura e base menor, respectivamente: ");
+    if(scanf("%d%d%d\n", &baseMa, &altura, &baseMe) == 3) {
+        float volume = (((pi * altura) / 3) * (pow(baseMa, 2) + baseMa * baseMe + pow(baseMe, 2)));
+        printf("%d\n", (int) volume);
+    }
 
     return 0;
 }
