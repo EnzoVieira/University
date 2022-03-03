@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 
 // 3.1
 void tresum(int colunas, int linhas) {
@@ -83,26 +83,40 @@ void trestresHorizontal(int altura) {
 }
 
 // 4
+int funcCirc(x, r) {
+    return sqrt(abs(x * x - 2*x*r));
+}
+
 void quatro(int raio) {
-    int altura = raio*2 + 1;
+    for (int k = 0; k < raio - funcCirc(0, raio); k++) {
+        printf(" ");
+    }
+    printf("#\n");
 
-    for (int i = 0; i < altura; i++) {
+    for (int i = 0; i < 2*raio; i++) {
+        int altura = funcCirc(i, raio);
+        int spacing = raio - altura;
 
-        int colunas;
-        if (i <= raio) {
-            colunas = 1 + i*2;
-        } else {
-            int degrau = altura - i;
-            colunas = degrau*2 - 1;
+        for (int k = 0; k < spacing; k++) {
+            if (altura != 0) printf(" ");
         }
 
-        int spacing = abs (i - raio);
+        for (int j = 0; j < altura; j++) {
+            printf("#");
+        };
 
-        for (int j = 0; j < spacing; j++) printf(" ");
-        for (int k = 0; k < colunas; k++) printf("#");
-
-        printf("\n");
+        for (int j = 0; j < altura; j++) {
+            if (j == altura - 1) 
+                printf("#\n");
+            else 
+                printf("#");
+        };
     }
+
+    for (int k = 0; k < raio - funcCirc(0, raio); k++) {
+        printf(" ");
+    }
+    printf("#\n");
 }
 
 int main() {
@@ -125,7 +139,8 @@ int main() {
     // trestresHorizontal(10);
 
     // 4
-    quatro(10);
+    quatro(5);
+    // printf("%f\n", funcCirc(2, 2));
 
     return 0;
 }
