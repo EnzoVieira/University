@@ -1,6 +1,14 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <stdbool.h>
+
+#define MAX_SIZE 33554432
+
+bool sieve[MAX_SIZE];
+
+void populateArray(bool a[], int N) {
+    for (int i = 0; i < N; i++)
+        a[i] = 0;
+}
 
 int howMuchTriangleNumbers(int start, int finish) {
     int n = 1;
@@ -16,49 +24,35 @@ int howMuchTriangleNumbers(int start, int finish) {
     return count;
 }
 
-int isPrime(int n) {
-    printf("n: %d\n", n);
-
-    printf("n == 2 || n == 3: %d %d\n", n == 2, n == 3);
-    if (n == 2 || n == 3)
-        return 1;
-
-    printf("n mod 2 == 0 || n mod 3 == 0: %d %d\n", n % 2 == 0, n % 3 == 0);
-    if (n % 2 == 0 || n % 3 == 0) 
-        return 0;
-
-    int i = 1;
-
-    printf("6*i - 1: %d\n", 6*i - 1);
-    while (6*i - 1 <= n || 6*i + 1 <= n) {
-        printf("dentro do while -- 6*i - 1  6*i + 1: %d %d\n", 6*i - 1, 6*i + 1);
-        if (6*i - 1 == n || 6*i + 1 == n)
-            return 1;
-
-        i++;
-    }
-
-    return 0;
+void printArray(bool a[], int N) {
+    for (int i = 0; i < N; i++) 
+        printf("%d - %d\n", i, sieve[i]);
 }
-// int isPrime(int n) {
-//     if(n < 2) return 0;
 
-//     for (int i = 2; i <= sqrt(n); i++) {
-//         if(n % i == 0) 
-//             return 0;
-//     }
-
-//     return 1;
-// }
-
-int howMuchPrimeNumbers(int start, int finish) {
-    int n = start;
+int sieveEratosthenes(int min, int max) {
+    int i, j, k; // Index's
+    int size = max - min + 1;
     int count = 0;
 
-    for (; n <= finish; n++) {
-        // printf("%d %d\n", n, isPrime(n));
+    // Popular array de booleanos até o valor máximo
+    populateArray(sieve, max);
 
-        if(isPrime(n))
+    // Correr até o número menor ou igual a raiz quadrada do número máximo
+    for(i = 2; i*i <= max; i++) {
+        // Se esse número já estiver marcado, ignore-o
+        if (sieve[i] == 1)
+            continue;
+        // Caso contrário, elimine todos os seus múltiplos
+        for (j = 2*i; j <= max; j += i) 
+            sieve[j] = 1;
+    }
+
+    // Contar todos os primos encontrados (começando a partir do mínimo).
+    for (k = min; k <= max; k++) {
+        if (k < 2)
+            continue;
+
+        if (sieve[k] == 0) 
             count++;
     }
 
@@ -68,14 +62,25 @@ int howMuchPrimeNumbers(int start, int finish) {
 int main() {
     int start, finish;
 
-    // if(scanf("%d %d", &start, &finish) == 2) {
-    //     printf("%d %d\n", howMuchTriangleNumbers(abs(start), abs(finish)), howMuchPrimeNumbers(abs(start), abs(finish)));
-    // }
-
-    isPrime(25);
+    if(scanf("%d %d", &start, &finish) == 2) {
+        printf("%d %d\n", howMuchTriangleNumbers(start, finish), sieveEratosthenes(start, finish));
+    }
 
     return 0;
 }
+
+// Contagem de valores
+// Escreva um programa que:
+
+// leia dois valores inteiros;
+// conte a quantidade de números triangulares dentro do intervalo entre os dois valores;
+// conte a quantidade de primos dentro do intervalo entre os dois valores.
+
+// Input
+// O seu programa deve receber uma linha com dois valores inteiros separados por espaços. Ambos os valores estão entre 1 e 2 elevado a 25.
+
+// Output
+// O seu programa deve imprimir uma linha com a quantidade de números triangulares e a quantidade de primos separadas por um espaço.
 
 // Input 1
 // 1 1
