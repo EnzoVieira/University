@@ -38,12 +38,43 @@ int mdc1(int a, int b) {
     return mdc;
 }
 
+// Receives a min and a max,
+int swapMax(int *min, int *max) {
+    int aux = *min;
 
+    if (*max < *min) {
+        *min = *max;
+        *max = aux;
+    }
+
+    return 0;
+}
+
+int mdc2(int a, int b) {
+    int min = a, max = b, mdc = 1;
+
+    if (a > b) {
+        min = b;
+        max = a;
+    }
+
+    printf("%d %d\n", min, max);
+    swapMax(&min, &max);
+    printf("%d %d\n", min, max);
+
+    // while (a != 0 || b != 0) {
+
+    // }
+
+    return 0;
+}
 
 int main() {
     // printf("%f\n", multInt1(6, 2));
     // printf("%f\n", multInt2(81, 423));
     // printf("%d\n", mdc1(16, 32));
+
+    mdc2(45, 126);
 
     return 0;
 }
